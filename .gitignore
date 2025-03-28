@@ -1,0 +1,6 @@
+.*
+!.gitignore
+build/
+.vscode
+CMakeLists.txt.user
+*.code-workspace
