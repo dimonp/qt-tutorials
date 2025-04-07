@@ -1,5 +1,3 @@
-#include <QStyle>
-#include <QSettings>
 #include <QMessageBox>
 
 #include "mainwindow.h"
