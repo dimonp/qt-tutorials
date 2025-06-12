@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file alias="table.png">resources/images/table.png</file>
+        <file alias="view.png">resources/images/view.png</file>
+        <file alias="index.png">resources/images/index.png</file>
+        <file alias="trigger.png">resources/images/trigger.png</file>
+        <file alias="column.png">resources/images/column.png</file>        
+    </qresource>
+</RCC>
