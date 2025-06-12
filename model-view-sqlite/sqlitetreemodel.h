@@ -10,6 +10,7 @@ class SqliteTreeModel final : public QAbstractItemModel {
 
     struct TreeItem;
     using LoadCallback = std::function<QList<QString>(SqliteTreeModel*, const QString &name)>;
+    using DetailsCallback = std::function<QString(SqliteTreeModel*, const QString &type, const QString &name)>;
 
     enum SchemaObjectType {
         UNDEFINED = -1,
@@ -23,6 +24,7 @@ class SqliteTreeModel final : public QAbstractItemModel {
     struct SchemaObjectInfo {
         QString iconName;
         LoadCallback expandCallback;
+        DetailsCallback detailsCallback;
         SchemaObjectType childType = UNDEFINED;
     };
 
@@ -94,9 +96,11 @@ public:
     void close();
     void populateModel();
 
+    QString getDetails(const QModelIndex &index);
 private:
     QList<QString> loadObjects(const QString &relationType);
     QList<QString> loadColumns(const QString &tableName);
+    QString loadDetails(const QString &relationType, const QString &tableName);
 
     QList<QString> doQuery(const char *sql, int column);
 

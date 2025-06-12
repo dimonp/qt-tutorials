@@ -20,6 +20,8 @@ public:
 
 private slots:
     void on_actionOpen_triggered();
+    
+    void showItemDetails(const QModelIndex &index);
 
 private:
     SqliteTreeModel sqliteModel;

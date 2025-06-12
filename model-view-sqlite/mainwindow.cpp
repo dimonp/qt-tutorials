@@ -9,15 +9,25 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->treeView->setModel(&sqliteModel);
+
+    connect(ui->treeView, &QTreeView::clicked, this, &MainWindow::showItemDetails);
+    connect(ui->treeView, &QTreeView::activated, this, &MainWindow::showItemDetails);
 }
 
 MainWindow::~MainWindow() = default;
 
-void MainWindow::on_actionOpen_triggered() {
+void MainWindow::on_actionOpen_triggered() 
+{
     QFileDialog openDialog(this);
     openDialog.setNameFilters({"Databases (*.db *.db3 *.sqlite *.sqlite3)", "Any files (*)"});
     if (openDialog.exec()) {
-        QString dbName = openDialog.selectedFiles().first();
-        sqliteModel.open(dbName);
+        QString dbFileName = openDialog.selectedFiles().first();
+        sqliteModel.open(dbFileName);
     }
+}
+
+void MainWindow::showItemDetails(const QModelIndex &index)
+{
+    QString details = sqliteModel.getDetails(index);
+    ui->textEdit->setText(details);
 }

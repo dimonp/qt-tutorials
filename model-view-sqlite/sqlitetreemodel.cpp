@@ -10,11 +10,11 @@ SqliteTreeModel::SqliteTreeModel(QObject *parent)
     populateModel();
 
     schemaObjects = {
-        { TABLE,    {":/icon/table.png",    &SqliteTreeModel::loadObjects, COLUMN}},
-        { INDEX,    {":/icon/index.png",    &SqliteTreeModel::loadObjects}},
-        { VIEW,     {":/icon/view.png",     &SqliteTreeModel::loadObjects, COLUMN}},
-        { TRIGGER,  {":/icon/trigger.png",  &SqliteTreeModel::loadObjects}},
-        { COLUMN,   {":/icon/column.png",   &SqliteTreeModel::loadColumns}}
+        { TABLE,    {":/icon/table.png",    &SqliteTreeModel::loadObjects, &SqliteTreeModel::loadDetails, COLUMN}},
+        { INDEX,    {":/icon/index.png",    &SqliteTreeModel::loadObjects, &SqliteTreeModel::loadDetails}},
+        { VIEW,     {":/icon/view.png",     &SqliteTreeModel::loadObjects, &SqliteTreeModel::loadDetails, COLUMN}},
+        { TRIGGER,  {":/icon/trigger.png",  &SqliteTreeModel::loadObjects, &SqliteTreeModel::loadDetails}},
+        { COLUMN,   {":/icon/column.png",   &SqliteTreeModel::loadColumns, &SqliteTreeModel::loadDetails}}
     };
 }
 
@@ -23,15 +23,15 @@ SqliteTreeModel::~SqliteTreeModel()
     close();
 }
 
-bool SqliteTreeModel::open(const QString &dbName) 
+bool SqliteTreeModel::open(const QString &dbFileName) 
 {
-    if (dbName.isEmpty()) {
+    if (dbFileName.isEmpty()) {
         return false;
     }
 
     close();
 
-    int rc = sqlite3_open(dbName.toStdString().c_str(), &db);
+    int rc = sqlite3_open(dbFileName.toStdString().c_str(), &db);
     if (rc != SQLITE_OK) {
         return false;
     } else {
@@ -68,9 +68,16 @@ QList<QString> SqliteTreeModel::loadObjects(const QString &relationType)
 }
 
 QList<QString> SqliteTreeModel::loadColumns(const QString &tableName) 
- {
+{
     const char *sql = "PRAGMA table_info('%1')";
     return doQuery(QString(sql).arg(tableName).toStdString().c_str(), 1);
+}
+
+QString SqliteTreeModel::loadDetails(const QString &relationType, const QString &name)
+{
+    const char *sql = "SELECT sql FROM sqlite_master WHERE type='%1' and name='%2'";
+    auto result =  doQuery(QString(sql).arg(relationType, name).toStdString().c_str(), 0);
+    return result.isEmpty() ? "" : result.first();
 }
 
 
@@ -213,7 +220,7 @@ void SqliteTreeModel::fetchMore(const QModelIndex &parent)
     }
 
     if (schemaObjects.contains(parentItem->type)) {
-        SchemaObjectInfo &info = schemaObjects[parentItem->type];
+        const SchemaObjectInfo &info = schemaObjects[parentItem->type];
 
         QList<QString> loadedItems = info.expandCallback(this, parentItem->title);
 
@@ -225,4 +232,20 @@ void SqliteTreeModel::fetchMore(const QModelIndex &parent)
 
         parentItem->hasMoreChildren = false;
     }
+}
+
+QString SqliteTreeModel::getDetails(const QModelIndex &index) 
+{
+    if (!index.isValid())
+        return "";
+
+    const TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    const TreeItem *parentItem = item->parentItem;
+
+    if (parentItem == rootItem.get()) 
+        return "";
+
+    SchemaObjectInfo &info = schemaObjects[parentItem->type];
+
+    return info.detailsCallback(this, parentItem->title, item->title);
 }
