@@ -38,7 +38,12 @@ void SceneWidget::resizeGL(int w, int h)
     float aspectRatio = static_cast<float>(w) / h;
 
     glMatrixMode(GL_PROJECTION);
-    glOrtho(-2, 2, -2.0 * aspectRatio, 2.0 * aspectRatio, -5, 5);
+    glLoadIdentity();
+
+    if (aspectRatio >= 1.0)
+        glOrtho(-2.0 * aspectRatio, 2.0 * aspectRatio, -2.0, 2.0, 5.0, -5.0);
+    else
+        glOrtho(-2.0, 2.0, -2.0 / aspectRatio, 2.0 / aspectRatio, 5.0, -5.0);
 }
 
 void SceneWidget::paintGL()
