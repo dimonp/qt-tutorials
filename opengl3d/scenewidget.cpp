@@ -18,10 +18,9 @@ void SceneWidget::timerEvent(QTimerEvent *)
 void SceneWidget::initializeGL()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
     glClearDepth(10.0);
+
     glDepthFunc(GL_LESS);
-    glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
 
     glEnable(GL_CULL_FACE);
@@ -48,10 +47,12 @@ void SceneWidget::resizeGL(int w, int h)
 
 void SceneWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadMatrixf(view.constData());
+
+    glEnable(GL_DEPTH_TEST);
     
     glBegin(GL_TRIANGLES);
     glColor3f(1.0f,0.0f,0.0f); glVertex3f( 0.0f, 1.0f, 0.0f);   //V0(red)
@@ -76,6 +77,14 @@ void SceneWidget::paintGL()
     glColor3f(0.0f,1.0f,0.0f); glVertex3f( 1.0f,-1.0f,-1.0f);   //V3(green)
     glColor3f(0.0f,0.0f,1.0f); glVertex3f( 1.0f,-1.0f, 1.0f);   //V2(blue)
     glColor3f(0.0f,1.0f,0.0f); glVertex3f(-1.0f,-1.0f, 1.0f);   //V1(green)
+    glEnd();
+
+    glDisable(GL_DEPTH_TEST);
+
+    glBegin(GL_LINES);
+    glColor3f(0.0f, 0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+    glColor3f(1.0f, 1.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+    glColor3f(0.0f, 1.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
     glEnd();
 }
 
