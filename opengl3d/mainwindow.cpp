@@ -11,3 +11,23 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 }
+
+void MainWindow::on_pushButtonXLeft_clicked()
+{
+    ui->openGLWidget->updateView(-5, 0);
+}
+
+void MainWindow::on_pushButtonXRight_clicked()
+{
+    ui->openGLWidget->updateView(5, 0);
+}
+
+void MainWindow::on_pushButtonYLeft_clicked()
+{
+    ui->openGLWidget->updateView(0, -5);
+}
+
+void MainWindow::on_pushButtonYRight_clicked()
+{
+    ui->openGLWidget->updateView(0, 5);
+}
