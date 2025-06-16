@@ -11,6 +11,7 @@ class SceneWidget : public QOpenGLWidget
 public:
     explicit SceneWidget(QWidget *parent = nullptr);
 
+    void updateView(float rotateX, float rotateY);
 private:
     QBasicTimer timer;
 
@@ -28,8 +29,6 @@ private:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
-
-    void updateView(float yaw, float pitch);
 };
 
 #endif // SCENEWIDGET_H

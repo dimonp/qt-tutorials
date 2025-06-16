@@ -18,6 +18,10 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_pushButtonXLeft_clicked();
+    void on_pushButtonXRight_clicked();
+    void on_pushButtonYLeft_clicked();
+    void on_pushButtonYRight_clicked();
 
 private:
     std::unique_ptr<Ui::MainWindow> ui;
