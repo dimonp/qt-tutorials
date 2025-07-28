@@ -15,6 +15,12 @@ int main(int argc, char *argv[])
 #endif
 
     QQmlApplicationEngine engine;
+    QObject::connect(
+    &engine,
+    &QQmlApplicationEngine::objectCreationFailed,
+    &app,
+    []() { QCoreApplication::exit(-1); },
+    Qt::QueuedConnection);
 
     AddressBook addressBook; // Create an instance of main window
     engine.rootContext()->setContextProperty("view", &addressBook);
