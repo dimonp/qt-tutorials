@@ -5,26 +5,16 @@ project(addressbook VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC OFF)
+set(CMAKE_AUTORCC ON)
 
-include_directories(
-    "code",
-    "resources",
-    "build"
-)
+set(CMAKE_AUTOUIC_SEARCH_PATHS resources)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core)
 qt_standard_project_setup()
 
-qt_wrap_ui(UI_SOURCES
-    resources/adddialog.ui
-    resources/addressbook.ui
-)
-
-message("UI_SOURCES ${UI_SOURCES}")
-
-qt_add_executable(addressbook 
+qt_add_executable(addressbook
     code/main.cpp
     code/adddialog.cpp
     code/adddialog.h
@@ -34,7 +24,7 @@ qt_add_executable(addressbook
     resources/addressbook.ui
 )
 
-target_link_libraries(addressbook PRIVATE 
+target_link_libraries(addressbook PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
