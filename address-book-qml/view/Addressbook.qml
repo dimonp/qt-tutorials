@@ -7,8 +7,11 @@ ApplicationWindow {
     title: "Addressbook"
     visible: true
 
-    width: 800
-    height: 600
+    minimumWidth: 800
+    minimumHeight: 600
+
+    flags: Qt.Window
+
     x: (Screen.width - this.width) / 2
     y: (Screen.height - this.height) / 2
 
@@ -34,11 +37,13 @@ ApplicationWindow {
 
     GridLayout {
         anchors.fill: parent
-        anchors.margins: 9
+        anchors.margins: 5
         rowSpacing: 6
         columnSpacing: 6
         rows: 3
         columns: 2
+
+        anchors.bottomMargin: 25
 
         Rectangle {
             id: listViewContainer

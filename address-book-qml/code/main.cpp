@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
 #include <QQmlContext>
 #include <QDirIterator>
 #include "addressbook.h"
@@ -7,6 +8,10 @@
 int main(int argc, char *argv[]) 
 {
     QGuiApplication app(argc, argv);
+
+#ifdef Q_OS_ANDROID
+    QQuickStyle::setStyle("Material");
+#endif
 
 #ifdef QT_DEBUG
     QDirIterator qrc(":", QDirIterator::Subdirectories);
@@ -25,7 +30,8 @@ int main(int argc, char *argv[])
     AddressBook addressBook; // Create an instance of main window
     engine.rootContext()->setContextProperty("view", &addressBook);
 
-    engine.loadFromModule("addressbook", "Addressbook");
+    const QUrl url("qrc:/addressbook/view/Addressbook.qml");
+    engine.load(url);
 
     return app.exec();
 }
