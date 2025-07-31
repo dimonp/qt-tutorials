@@ -1,8 +1,8 @@
 .*
+!.devcontainer
 !.gitignore
 !.clang-format
 !.clang-tidy
 build/
 .vscode
 CMakeLists.txt.user
-*.code-workspace

@@ -1,0 +1,48 @@
+﻿{
+  "name": "Qt6 Development",
+  "dockerFile": "Dockerfile",
+  "workspaceMount": "source=/mnt/d/WORKSPACE/@Qt/qt-tutorials,target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "eamodio.gitlens",
+        "theqtcompany.qt-cpp-pack",
+        "oralshanecurtis-6510.launchqtcreator",
+        "theqtcompany.qt-cpp",
+        "theqtcompany.qt-cpp-pack",
+        "theqtcompany.qt-core",
+        "theqtcompany.qt-ui",
+        "theqtcompany.qt-qml"
+      ],
+      "settings": {
+          "C_Cpp.intelliSenseEngine": "disabled",
+          "clangd.arguments": [
+            "-background-index",
+            "--compile-commands-dir=${config:cmake.buildDirectory}",
+            "--clang-tidy",
+            "--completion-style=detailed",
+            "--header-insertion=never"
+          ],
+          "cmake.automaticReconfigure": false,
+          "cmake.configureOnEdit":  false,
+          "cmake.configureOnOpen": false,
+          "cmake.outputLogEncoding": "UTF-8",
+          "cmake.preferredGenerators": [
+            "Ninja",
+            "Unix Makefiles"
+          ],
+          "launchqtcreator.qtCreatorPath": "/opt/qtcreator16/bin/qtcreator",
+          "launchqtcreator.qtDesignerPath": "/opt/qt-${containerEnv:QT_VERSION}/bin/designer",
+          "qt-ui.customWidgetsDesignerExePath": "/opt/qt-${containerEnv:QT_VERSION}/bin/designer",
+          "qt-core.qtInstallationRoot": "/opt/qt-${containerEnv:QT_VERSION}/bin/qmake6"
+      }
+
+    }
+  },
+  "onCreateCommand": "sudo git config --global --add safe.directory /workspace",
+  "remoteUser": "ubuntu"
+}

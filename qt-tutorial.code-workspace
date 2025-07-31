@@ -1,0 +1,34 @@
+{
+    "folders": [
+        {
+            "path": "address-book"
+        },
+        {
+            "path": "offscreen2d"
+        },
+        {
+            "path": "paint2d"
+        },
+        {
+            "path": "rotate2d"
+        },
+        {
+            "path": "settings-tray"
+        },
+        {
+            "path": "yaml-settings"
+        },
+        {
+            "path": "model-view"
+        },
+        {
+            "path": "model-view-sqlite"
+        },
+        {
+            "path": "opengl3d"
+        },
+        {
+            "path": "address-book-qml"
+        }
+    ]
+}
