@@ -1,7 +1,10 @@
 ﻿{
   "name": "Qt6 Development",
   "dockerFile": "Dockerfile",
-  "workspaceMount": "source=/mnt/d/WORKSPACE/@Qt/qt-tutorials,target=/workspace,type=bind",
+  "runArgs": [
+    "--cpus", "4"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "workspaceFolder": "/workspace",
   "customizations": {
     "vscode": {

@@ -70,8 +70,7 @@ ARG QT_CONFIG_ARGS="-skip qtwebengine -nomake examples -nomake tests -developer-
 RUN mkdir build
 WORKDIR /home/$USERNAME/qt6/build
 RUN ../configure -prefix /opt/qt-$QT_VERSION $QT_CONFIG_ARGS
-RUN cmake --build . --parallel
-
+RUN cmake --build . --parallel 4
 USER root
 RUN cmake --install . \
     && rm -rf /home/$USERNAME/qt6/build
